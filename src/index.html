@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Color Contrast Checker</title>
+ <style>
+   body {
+     font-family: Arial, sans-serif;
+     padding: 20px;
+   }
+   label {
+     display: block;
+     margin-bottom: 5px;
+   }
+   input[type="text"] {
+     width: 100%;
+     padding: 8px;
+     margin-bottom: 10px;
+   }
+   button {
+     padding: 8px 16px;
+     background-color: #007bff;
+     color: #fff;
+     border: none;
+     cursor: pointer;
+   }
+   button:hover {
+     background-color: #0056b3;
+   }
+   #result {
+     margin-top: 20px;
+   }
+   .color-square {
+     width: 30px;
+     height: 30px;
+     display: inline-block;
+     border: 1px solid #ccc;
+     margin-left: 5px;
+   }
+ </style>
+</head>
+<body>
+ <h1>Color Contrast Checker</h1>
+ <label for="foregroundColor">Foreground Color (Hex):</label>
+ <input type="text" id="foregroundColor" placeholder="Enter foreground color hex" required>
+ <div class="color-square" id="foregroundSquare"></div>
+ <label for="backgroundColor">Background Color (Hex):</label>
+ <input type="text" id="backgroundColor" placeholder="Enter background color hex" required>
+ <div class="color-square" id="backgroundSquare"></div>
+ <button id="checkContrast">Check Contrast</button>
+ <div id="result"></div>
+
+ <script>
+   function updateColorSquare(inputId, squareId) {
+     const colorInput = document.getElementById(inputId).value.trim();
+     const colorSquare = document.getElementById(squareId);
+     colorSquare.style.backgroundColor = colorInput.startsWith('#') ? colorInput : '#' + colorInput;
+   }
+
+   document.getElementById('foregroundColor').addEventListener('input', function() {
+     updateColorSquare('foregroundColor', 'foregroundSquare');
+   });
+
+   document.getElementById('backgroundColor').addEventListener('input', function() {
+     updateColorSquare('backgroundColor', 'backgroundSquare');
+   });
+
+   document.getElementById('checkContrast').addEventListener('click', function() {
+     const foregroundColor = document.getElementById('foregroundColor').value.trim();
+     const backgroundColor = document.getElementById('backgroundColor').value.trim();
+
+     const apiUrl = `https://webaim.org/resources/contrastchecker/?fcolor=${foregroundColor}&bcolor=${backgroundColor}&api`;
+
+     fetch(apiUrl)
+       .then(response => {
+         if (!response.ok) {
+           throw new Error('Network response was not ok');
+         }
+         return response.json();
+       })
+       .then(data => {
+        
+         const resultDiv = document.getElementById('result');
+         resultDiv.innerHTML = `
+           <p>Contrast Ratio: ${data.contrastRatio}</p>
+           <p>AA Pass: ${data.AA}</p>
+           <p>AAA Pass: ${data.AAA}</p>
+           <p>AA Large Text Pass: ${data.AALarge}</p>
+           <p>AAA Large Text Pass: ${data.AAALarge}</p>
+         `;
+       })
+       .catch(error => {
+         console.error('There was a problem with your fetch operation:', error);
+       });
+   });
+ </script>
+</body>
+</html>
+
+
+
