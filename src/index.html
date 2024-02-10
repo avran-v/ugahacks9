@@ -5,6 +5,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Color Contrast Checker</title>
  <script type="module" src="index.js"></script>
+ <script src="rgblind.js"></script>
  <style>
    body {
      font-family: Arial, sans-serif;
@@ -82,8 +83,8 @@
  <div id="result"></div>
  <div class="image-container" id="image-container" style="display: none">
   <div class="image-item"><img id="image1" alt="Original Photo"></div>
-  <div class="image-item"><img id="image2" alt="Protanopia"></div>
-  <div class="image-item"><img id="image3" alt="Deuteranopia"></div>
+  <div class="image-item"><img id="image2" alt="Protanopia" class="protanopia"></div>
+  <div class="image-item"><img id="image3" alt="Deuteranopia" class="deuteranopia"></div>
 </div>
  <script src="contrast.js"></script>
 </body>
