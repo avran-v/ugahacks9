@@ -1,3 +1,6 @@
+## Team members
+Keerthi Veeramachaneni, Misry Dhanani, Shriya Rasale, and Subhasini Udhyakumar
+
 ## Inspiration
 All of our team has had experience making websites or designs; however, having to use different resources to check and make our design more accessible makes the designing process longer and more tedious. We wanted to design something that would empower designers to become their own superheroes and save the world from inaccessible designs in all-in-one add-on.
 
