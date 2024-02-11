@@ -1,4 +1,4 @@
-const counter = -1; 
+const counter = -1;
 function updateColorSquare(inputId, squareId) {
   const colorInput = document.getElementById(inputId).value.trim();
   const colorSquare = document.getElementById(squareId);
@@ -53,10 +53,22 @@ document.getElementById("checkContrast").addEventListener("click", function () {
       const resultDiv = document.getElementById("result");
 
       // Display a checkmark or cross based on the contrast results
-      const aaResult = data.AA === "pass" ? "✓" : "✗";
-      const aaaResult = data.AAA === "pass" ? "✓" : "✗";
-      const aaLargeResult = data.AALarge === "pass" ? "✓" : "✗";
-      const aaaLargeResult = data.AAALarge === "pass" ? "✓" : "✗";
+      const aaResult =
+        data.AA === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaaResult =
+        data.AAA === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaLargeResult =
+        data.AALarge === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaaLargeResult =
+        data.AAALarge === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
 
       updateButtonColors("normalAAImage", "foregroundColor", "backgroundColor");
       updateButtonColors("largeAAAImage", "foregroundColor", "backgroundColor");
@@ -68,23 +80,33 @@ document.getElementById("checkContrast").addEventListener("click", function () {
       document.getElementById("textAA").innerHTML = "AA";
       document.getElementById("textAAA").innerHTML = "AAA";
 
-      resultDiv.innerHTML = `
-  <p>Contrast Ratio: ${data.ratio}:1</p>
-  `;
-  let newForeSquare = document.getElementById("newForeSquare");
-  let newBackSquare = document.getElementById("newBackSquare");
+      const additional = document.getElementById("additional");
+      additional.innerHTML = `
+      <hr style="border: 2px solid #ddd;">
+      <p style="font-size: 16px;">For more information, visit <a href="https://webaim.org" target="_blank">WebAIM</a>.</p>
+    `;
 
-  if (!newForeSquare || !newBackSquare) {
-    const newDiv = document.createElement("div");
-    newDiv.innerHTML = `
+      resultDiv.innerHTML = `
+      <hr style="border: 2px solid #ddd;">
+      <p style="font-size: 16;">Contrast Ratio: </p>
+  <p style="font-weight: bold;">${data.ratio}:1</p>
+  `;
+      let newForeSquare = document.getElementById("newForeSquare");
+      let newBackSquare = document.getElementById("newBackSquare");
+
+      if (!newForeSquare || !newBackSquare) {
+        const newDiv = document.createElement("div");
+        newDiv.innerHTML = `
+    <hr style="border: 2px solid #ddd;">
+    <p style="font-size: 16px; margin-left:2px">  Look at alternative colors below!</p>
       <div class="color-square" id="newForeSquare"></div>
       <div class="color-square" id="newBackSquare"></div>
     `;
-    document.getElementById("tableResult").appendChild(newDiv);
-    newForeSquare = document.getElementById("newForeSquare");
-    newBackSquare = document.getElementById("newBackSquare");
-  }
-  addSuggestedColors(foregroundColor, backgroundColor); 
+        document.getElementById("tableResult").appendChild(newDiv);
+        newForeSquare = document.getElementById("newForeSquare");
+        newBackSquare = document.getElementById("newBackSquare");
+      }
+      addSuggestedColors(foregroundColor, backgroundColor);
     })
     .catch((error) => {
       console.error("There was a problem with your fetch operation:", error);
@@ -120,10 +142,10 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
         }, ${foreColorHSL[1]}%, ${foreColorHSL[2] * 2}%)`;
         foreColorHSL[2] = foreColorHSL[2] * 2;
       } else {
-        //automatically use light value of 100
+        //automatically use light value of 85
         document.getElementById(
           "newForeSquare"
-        ).style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, 95%)`;
+        ).style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, 85%)`;
         foreColorHSL[2] = 85;
       }
       document.getElementById("newBackSquare").style.backgroundColor = `hsl(${
@@ -138,10 +160,10 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
         }, ${backColorHSL[1]}%, ${backColorHSL[2] * 2}%)`;
         backColorHSL[2] = backColorHSL[2] * 2;
       } else {
-        //automatically use light value of 100
+        //automatically use light value of 85
         document.getElementById(
           "newBackSquare"
-        ).style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, 95%)`;
+        ).style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, 85%)`;
         backColorHSL[2] = 85;
       }
       document.getElementById("newForeSquare").style.backgroundColor = `hsl(${
@@ -149,8 +171,8 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
       }, ${foreColorHSL[1]}%, ${foreColorHSL[2] / 2}%)`;
       foreColorHSL[2] = foreColorHSL[2] / 2;
     }
-    console.log(foreColorHSL); 
-    console.log(backColorHSL); 
+    console.log(foreColorHSL);
+    console.log(backColorHSL);
     getNewHexCodes(foreColorHSL, backColorHSL);
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
@@ -212,10 +234,22 @@ async function getContrastRatio(newForeColor, newBackColor) {
     .then((data) => {
       const resultDiv = document.getElementById("result2");
 
-      const aaResult = data.AA === "pass" ? "✓" : "✗";
-      const aaaResult = data.AAA === "pass" ? "✓" : "✗";
-      const aaLargeResult = data.AALarge === "pass" ? "✓" : "✗";
-      const aaaLargeResult = data.AAALarge === "pass" ? "✓" : "✗";
+      const aaResult =
+        data.AA === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaaResult =
+        data.AAA === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaLargeResult =
+        data.AALarge === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaaLargeResult =
+        data.AAALarge === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
 
       const leftbutton = document.getElementById("normalAAImage1");
       const rightbutton = document.getElementById("largeAAAImage1");
@@ -233,7 +267,8 @@ async function getContrastRatio(newForeColor, newBackColor) {
       document.getElementById("textAAA2").innerHTML = "AAA";
 
       resultDiv.innerHTML = `
-    <p>Contrast Ratio: ${data.ratio}:1</p>
+      <p style="font-size: 16;">Contrast Ratio: </p>
+  <p style="font-weight: bold;">${data.ratio}:1</p>
     `;
       console.log("Contrast Ratio: " + data.ratio);
     })

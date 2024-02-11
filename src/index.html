@@ -61,12 +61,12 @@
       }
 
       #leftHexText {
-        font-size: 14px;
+        font-size: 16px;
         margin-left: 10px;
       }
 
       #rightHexText {
-        font-size: 14px;
+        font-size: 16px;
         margin-left: 80px;
       }
 
@@ -92,7 +92,7 @@
         background-color: #f2f2f2;
         padding: 5px;
         text-align: center;
-        font-size: 15px;
+        font-size: 16px;
         border-radius: 5px;
       }
       body {
@@ -120,7 +120,7 @@
         margin-left: 5px;
         border: 2px solid #ddd;
         margin-right: 5px;
-        font-size: 14px;
+        font-size: 16px;
         outline: none;
       }
       button {
@@ -135,13 +135,13 @@
       }
       #result {
         text-align: center;
-        font-size: 14px;
+        font-size: 16px;
         margin-top: 20px;
       }
 
       #result2 {
         text-align: center;
-        font-size: 14px;
+        font-size: 16px;
         margin-top: 20px;
       }
       .navbar {
@@ -209,12 +209,12 @@
       }
       .contrast-heading {
         padding: 5px;
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 20px;
       }
       .filter-heading {
         padding: 5px;
-        font-size: 14px;
+        font-size: 16px;
         margin-bottom: 5px;
       }
 
@@ -226,7 +226,7 @@
         border-radius: 8px;
         cursor: pointer;
         margin-right: 10px;
-        font-size: 14px;
+        font-size: 16px;
         outline: none;
       }
       .hex-squares-container {
@@ -255,7 +255,7 @@
       .button1 {
         background-color: #fff;
         border-radius: 7px;
-        font-size: 15px;
+        font-size: 16px;
         width: 140px;
         height: 50px;
         color: #fff;
@@ -303,8 +303,16 @@
         color: #fff;
       }
 
+      .instructions-container{
+        max-width: 480px;
+        margin-top: 25px;
+        background-color: #fff;
+        padding: 2px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
       .contrast-result {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: bold;
       }
       th,
@@ -331,7 +339,7 @@
         border-radius: 11px;
         flex-grow: 1;
         text-align: center;
-        font-size: 14px;
+        font-size: 16px;
         transition: background-color 0.3s;
       }
       #checkContrast:hover {
@@ -368,6 +376,11 @@
         </div>
       </div>
     </div>
+    <div class="instructions-container">
+      <div class="contrast-heading">
+        Check out how well your colors contrast! Tables will pop-up and show if you pass/fail the accessibility guidelines.
+    </div>
+  </div>
     <div class="contrast-container">
       <div class="contrast-heading">
         Enter hex codes (without #) to test contrast:
@@ -391,7 +404,6 @@
         />
       </div>
       <button id="checkContrast">Submit</button>
-      <hr style="border: 2px solid #ddd;">
 
       <div id="result"></div>
 
@@ -422,9 +434,6 @@
           </tbody>
         </table>
       </div>
-      
-
-      <hr style="border: 2px solid #ddd;">
 
       <div id="newHexCodesText">
         <div id="leftHexText"></div>
@@ -460,6 +469,8 @@
           </tbody>
         </table>
       </div>
+
+      <div id="additional"> </div>
     </div>
 
     <script src="contrast.js"></script>
