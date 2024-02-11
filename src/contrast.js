@@ -1,3 +1,4 @@
+const counter = -1; 
 function updateColorSquare(inputId, squareId) {
   const colorInput = document.getElementById(inputId).value.trim();
   const colorSquare = document.getElementById(squareId);
@@ -70,15 +71,20 @@ document.getElementById("checkContrast").addEventListener("click", function () {
       resultDiv.innerHTML = `
   <p>Contrast Ratio: ${data.ratio}:1</p>
   `;
+  let newForeSquare = document.getElementById("newForeSquare");
+  let newBackSquare = document.getElementById("newBackSquare");
 
-      const newDiv = document.createElement("div");
-
-      newDiv.innerHTML = `
-  <div class="color-square" id="newForeSquare"></div>
-  <div class="color-square" id="newBackSquare"></div>
-  `;
-      addSuggestedColors(foregroundColor, backgroundColor);
-      document.getElementById("tableResult").appendChild(newDiv);
+  if (!newForeSquare || !newBackSquare) {
+    const newDiv = document.createElement("div");
+    newDiv.innerHTML = `
+      <div class="color-square" id="newForeSquare"></div>
+      <div class="color-square" id="newBackSquare"></div>
+    `;
+    document.getElementById("tableResult").appendChild(newDiv);
+    newForeSquare = document.getElementById("newForeSquare");
+    newBackSquare = document.getElementById("newBackSquare");
+  }
+  addSuggestedColors(foregroundColor, backgroundColor); 
     })
     .catch((error) => {
       console.error("There was a problem with your fetch operation:", error);
@@ -108,7 +114,7 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
     ];
 
     if (foreColorHSL[2] > backColorHSL[2]) {
-      if (foreColorHSL[2] * 2 <= 95) {
+      if (foreColorHSL[2] * 2 <= 85) {
         document.getElementById("newForeSquare").style.backgroundColor = `hsl(${
           foreColorHSL[0]
         }, ${foreColorHSL[1]}%, ${foreColorHSL[2] * 2}%)`;
@@ -118,7 +124,7 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
         document.getElementById(
           "newForeSquare"
         ).style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, 95%)`;
-        foreColorHSL[2] = 95;
+        foreColorHSL[2] = 85;
       }
       document.getElementById("newBackSquare").style.backgroundColor = `hsl(${
         backColorHSL[0]
@@ -126,7 +132,7 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
       backColorHSL[2] = backColorHSL[2] / 2;
     } else {
       //console.log("backcolor is darker or they are the same");
-      if (backColorHSL[2] * 2 <= 95) {
+      if (backColorHSL[2] * 2 <= 85) {
         document.getElementById("newBackSquare").style.backgroundColor = `hsl(${
           backColorHSL[0]
         }, ${backColorHSL[1]}%, ${backColorHSL[2] * 2}%)`;
@@ -136,13 +142,15 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
         document.getElementById(
           "newBackSquare"
         ).style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, 95%)`;
-        backColorHSL[2] = 95;
+        backColorHSL[2] = 85;
       }
       document.getElementById("newForeSquare").style.backgroundColor = `hsl(${
         foreColorHSL[0]
       }, ${foreColorHSL[1]}%, ${foreColorHSL[2] / 2}%)`;
       foreColorHSL[2] = foreColorHSL[2] / 2;
     }
+    console.log(foreColorHSL); 
+    console.log(backColorHSL); 
     getNewHexCodes(foreColorHSL, backColorHSL);
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
@@ -158,9 +166,15 @@ async function getNewHexCodes(newForeColor, newBackColor) {
       fetch(foreColorCheckerUrl).then((res) => res.json()),
       fetch(backColorCheckerUrl).then((res) => res.json()),
     ]);
+
     const newForeColorHex = foreColorResponse.hex.value;
     const newBackColorHex = backColorResponse.hex.value;
 
+    /*const foreHexTextDiv = document.getElementById("newForeSquare");
+    foreHexTextDiv.innerHTML = `<p>${newForeColorHex}</p>`;
+
+    const backHexTextDiv = document.getElementById("newBackSquare");
+    backHexTextDiv.innerHTML = `<p>${newBackColorHex}</p>`;*/
     // const foreHexText = document.createElement("p");
     // foreHexText.textContent = newForeColorHex;
     const firstHexTextDiv = document.getElementById("leftHexText");
