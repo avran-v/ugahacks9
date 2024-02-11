@@ -77,28 +77,6 @@ function updateColorSquare(inputId, squareId) {
 
         document.getElementById("tableResult").appendChild(newDiv);
 
-          // Example usage with your colors
-        //addSuggestedColors(foregroundColor, backgroundColor);
-      
-      /*if(foreColorHSL[2] > backColorHSL[2]){
-        //forecolor is l
-        if(foreColorHSL[2]*2 <= 100){
-            console.log("This code is actually running!"); 
-            document.getElementById("newForeSquare").style.backgroundColor = "hsl("+foreColorHSL[0]+", "+foreColorHSL[1]+"%, "+foreColorHSL[2]+")"; 
-        } else {
-            //automatically use light value of 100 
-            document.getElementById("newForeSquare").style.backgroundColor = "hsl("+foreColorHSL[0]+", "+foreColorHSL[1]+"%, 100%)"; 
-        }
-        //backcolor is darker
-        //update id with new background colors
-      } else {
-        if(backColorHSL[2]*2 <= 100){
-            //update successfully
-        } else {
-            //automatically use light value of 100
-        }
-      }*/
-
       })
       .catch((error) => {
         console.error("There was a problem with your fetch operation:", error);
@@ -121,29 +99,54 @@ function updateColorSquare(inputId, squareId) {
       const backColorHSL = [backColorResponse.hsl.h, backColorResponse.hsl.s, backColorResponse.hsl.l];
 
       if(foreColorHSL[2] > backColorHSL[2]){
-        console.log("forecolor is lighter"); 
-        if(foreColorHSL[2]*2 <= 100){
+        if(foreColorHSL[2]*2 <= 95){
             document.getElementById("newForeSquare").style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, ${foreColorHSL[2] * 2}%)`;
+            foreColorHSL[2] = foreColorHSL[2] * 2; 
         } else {
             //automatically use light value of 100 
             document.getElementById("newForeSquare").style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, 95%)`; 
+            foreColorHSL[2] = 95; 
         }
         document.getElementById("newBackSquare").style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, ${backColorHSL[2] / 2}%)`;
-        //backcolor is darker
-        //update id with new background colors
+        backColorHSL[2] = backColorHSL[2]/2; 
       } else {
-        console.log("backcolor is darker or they are the same"); 
-        if(backColorHSL[2]*2 <= 100){
-            //update successfully
+        //console.log("backcolor is darker or they are the same"); 
+        if(backColorHSL[2]*2 <= 95){
+            document.getElementById("newBackSquare").style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, ${backColorHSL[2] * 2}%)`;
+            backColorHSL[2] = backColorHSL[2] * 2; 
         } else {
             //automatically use light value of 100
+            document.getElementById("newBackSquare").style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, 95%)`; 
+            backColorHSL[2] = 95; 
         }
+        document.getElementById("newForeSquare").style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, ${foreColorHSL[2] / 2}%)`;
+        foreColorHSL[2] = foreColorHSL[2]/2; 
       }
-  
-      //document.getElementById("newForeSquare").style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, ${foreColorHSL[2]}%)`;
-      //document.getElementById("newBackSquare").style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, ${backColorHSL[2]}%)`;
-  
+      getNewHexCodes(foreColorHSL, backColorHSL); 
     } catch (error) {
       console.error('There was a problem with your fetch operation:', error);
+    }
+  }
+
+  async function getNewHexCodes(newForeColor, newBackColor){
+    //GET https://www.thecolorapi.com/id?hex=0047AB&rgb=0,71,171&hsl=215,100%,34%&cmyk=100,58,0,33&format=html
+    const foreColorCheckerUrl = `https://www.thecolorapi.com/id?hsl=${newForeColor[0]},${newForeColor[1]}%,${newForeColor[2]}%&format=json`;
+    const backColorCheckerUrl = `https://www.thecolorapi.com/id?hsl=${newBackColor[0]},${newBackColor[1]}%,${newBackColor[2]}%&format=json`;
+    try{
+        const [foreColorResponse, backColorResponse] = await Promise.all([
+            fetch(foreColorCheckerUrl).then(res => res.json()),
+            fetch(backColorCheckerUrl).then(res => res.json())
+          ]);
+        const newForeColorHex = foreColorResponse.hex.value; 
+        const newBackColorHex = backColorResponse.hex.value; 
+
+        const foreHexText = document.createElement("p");
+        foreHexText.textContent = newForeColorHex; 
+        document.getElementById("newForeSquare").appendChild(foreHexText);
+        const backHexText = document.createElement("p");
+        backHexText.textContent = newBackColorHex; 
+        document.getElementById("newBackSquare").appendChild(backHexText);
+    } catch (error) {
+        console.error('There was a problem with your fetch operation:', error);
     }
   }
