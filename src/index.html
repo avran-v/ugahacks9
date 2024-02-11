@@ -11,6 +11,70 @@
         font-family: Arial, sans-serif;
         padding: 20px;
         margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #result {
+        margin-top: 20px;
+      }
+      .color-square {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        margin-left: 5px;
+      }
+
+      #image {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .image-container {
+        display: flex;
+        flex-direction: column; /* Display images in a column */
+      }
+
+      .image-item img {
+        width: 100%; /* Make images take up the width of their container */
+        height: auto;
+        display: block;
+      }
+
+      .image-item {
+        margin-bottom: 10px; /* Add space between images */
+      }
+      /* New styles for image captions */
+      .image-caption {
+        background-color: #f2f2f2; /* Grey background */
+        padding: 5px; /* Add padding */
+        text-align: center; /* Center text */
+        font-size: 15px; /* Adjust font size */
+        border-radius: 5px; /* Rounded edges */
+      }
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        margin: 0;
         box-sizing: border-box;
       }
       label {
@@ -176,19 +240,24 @@
     </style>
   </head>
   <body>
-    <div class="navbar">
-      <button class="nav-button selected" onclick="goToPage('index.html')">
-        Color Contrast
-      </button>
-      <button class="nav-button" onclick="goToPage('index2.html')">
-        Color Blindness Filter
-      </button>
-    </div>
     <!--<img id="image">-->
     <a href="#" download="download" id="anchor" style="text-decoration: none">
       <button id="download-button" style="display: none">Download</button>
     </a>
-
+    <div class="image-container" id="image-container" style="display: none">
+      <div class="image-item">
+        <img id="image1" alt="Original Photo" />
+        <div class="image-caption">Original</div>
+      </div>
+      <div class="image-item">
+        <img id="image2" alt="Protanopia" class="protanopia" />
+        <div class="image-caption">Protanopia</div>
+      </div>
+      <div class="image-item">
+        <img id="image3" alt="Deuteranopia" class="deuteranopia" />
+        <div class="image-caption">Deuteranopia</div>
+      </div>
+    </div>
     <div class="contrast-container">
       <div class="contrast-heading">
         Enter hex codes (without #) to test contrast:
@@ -261,10 +330,5 @@
     </div>
 
     <script src="contrast.js"></script>
-    <script>
-      function goToPage(page) {
-        window.location.href = page;
-      }
-    </script>
   </body>
 </html>
