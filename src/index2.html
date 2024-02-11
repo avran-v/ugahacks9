@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Blindness Filter</title>
+    <script type="module" src="index.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+      }
+      button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #result {
+        margin-top: 20px;
+      }
+      .color-square {
+        width: 30px;
+        height: 30px;
+        display: inline-block;
+        border: 1px solid #ccc;
+        margin-left: 5px;
+      }
+
+      #image {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .navbar {
+        background-color: white;
+        overflow: hidden;
+        display: flex;
+      }
+
+      .nav-button {
+        background-color: white;
+        border-radius: 11px; /* Adjusted border-radius for smaller buttons */
+        border: 2px solid white;
+        color: black;
+        padding: 10px; /* Adjusted padding for smaller buttons */
+        margin: 0 10px; /* Increased margin between buttons */
+        cursor: pointer;
+        flex-grow: 1;
+        text-align: center;
+        font-size: 12px; /* Adjusted font size for smaller text */
+        transition: background-color 0.3s;
+      }
+
+      .nav-button:hover {
+        background-color: white;
+        border-radius: 11px;
+        border: 2px solid black;
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .image-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .selected {
+        background-color: white;
+        border-radius: 11px;
+        border: 2px solid black;
+      }
+
+      .image-item {
+        flex: 1;
+        margin: 0 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <button class="nav-button" onclick="goToPage('index.html')">
+        Color Contrast
+      </button>
+      <button class="nav-button selected" onclick="goToPage('index2.html')">
+        Color Blindness Filter
+      </button>
+    </div>
+    <!--<img id="image">-->
+    <a href="#" download="download" id="anchor" style="text-decoration: none">
+      <button id="download-button" style="display: none">Download</button>
+    </a>
+    <h1>Color Contrast Checker</h1>
+    <label for="foregroundColor">Foreground Color (Hex):</label>
+    <input
+      type="text"
+      id="foregroundColor"
+      placeholder="Enter foreground color hex"
+      required
+    />
+    <div class="color-square" id="foregroundSquare"></div>
+    <label for="backgroundColor">Background Color (Hex):</label>
+    <input
+      type="text"
+      id="backgroundColor"
+      placeholder="Enter background color hex"
+      required
+    />
+    <div class="color-square" id="backgroundSquare"></div>
+    <button id="checkContrast">Check Contrast</button>
+    <div id="result"></div>
+    <div class="image-container" id="image-container" style="display: none">
+      <div class="image-item"><img id="image1" alt="Original Photo" /></div>
+      <div class="image-item"><img id="image2" alt="Protanopia" /></div>
+      <div class="image-item"><img id="image3" alt="Deuteranopia" /></div>
+    </div>
+    <div id="feedback"></div>
+    <script src="contrast.js"></script>
+    <script>
+      function goToPage(page) {
+        window.location.href = page;
+      }
+    </script>
+  </body>
+</html>

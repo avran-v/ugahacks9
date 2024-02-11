@@ -1,94 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Color Contrast Checker</title>
- <script type="module" src="index.js"></script>
- <script src="rgblind.js"></script>
- <style>
-   body {
-     font-family: Arial, sans-serif;
-     padding: 20px;
-     margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-   }
-   label {
-     display: block;
-     margin-bottom: 5px;
-   }
-   input[type="text"] {
-     width: 100%;
-     padding: 8px;
-     margin-bottom: 10px;
-   }
-   button {
-     padding: 8px 16px;
-     background-color: #007bff;
-     color: #fff;
-     border: none;
-     cursor: pointer;
-   }
-   button:hover {
-     background-color: #0056b3;
-   }
-   #result {
-     margin-top: 20px;
-   }
-   .color-square {
-     width: 30px;
-     height: 30px;
-     display: inline-block;
-     border: 1px solid #ccc;
-     margin-left: 5px;
-   }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Contrast Checker</title>
+    <script type="module" src="index.js"></script>
+    <script src="rgblind.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"] {
+        width: calc(50% - 15px); /* Adjusted width for side-by-side layout */
+        padding: 8px;
+        margin-bottom: 10px;
+        display: inline-block;
+        box-sizing: border-box;
+      }
+      .color-square {
+        width: 110px;
+        height: 60px;
+        display: inline-block;
+        border-radius: 11px;
+        margin-left: 5px;
+        border: 2px solid #ddd;
+        margin-right: 5px;
+        font-size: 14px;
+        outline: none;
+      }
+      button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      #result {
+        margin-top: 20px;
+      }
+      .navbar {
+        background-color: white;
+        overflow: hidden;
+        display: flex;
+      }
+      .nav-button {
+        background-color: white;
+        border-radius: 11px;
+        border: 2px solid white;
+        color: black;
+        padding: 10px;
+        margin: 0 10px;
+        cursor: pointer;
+        flex-grow: 1;
+        text-align: center;
+        font-size: 12px;
+        transition: background-color 0.3s;
+      }
+      .nav-button:hover {
+        background-color: white;
+        border-radius: 11px;
+        border: 2px solid black;
+      }
+      .image-container {
+        display: flex;
+        justify-content: space-between;
+      }
+      .image-item img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .selected {
+        background-color: white;
+        border-radius: 11px;
+        border: 2px solid black;
+      }
+      .image-item {
+        flex: 1;
+        margin: 0 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border: none;
+      }
+      .contrast-container {
+        max-width: 480px;
+        margin-top: 25px;
+        background-color: #fff;
+        padding: 2px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
 
-   #image{
-    max-width: 100%; 
-    height: auto; 
-   }
+      .contrast-heading {
+        padding: 5px;
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
 
-.image-container {
-  display: flex;
-  justify-content: space-between; 
-}
+      .contrast-button {
+        background-color: #fff;
+        width: 170px;
+        height: 100px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        outline: none;
+      }
 
-.image-item img {
-  width: 100%; 
-  height: auto; 
-  display: block; 
-}
+      .hex-input-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
 
-.image-item {
-  flex: 1;
-  margin: 0 10px;
-}
+      input[type="text"] {
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 7px;
+        margin-left: 20px;
+        margin-right: 20px;
+      }
 
- </style>
-</head>
-<body>
-  <!--<img id="image">-->
-  <a href="#" download="download" id="anchor" style="text-decoration: none">
-    <button id="download-button" style="display: none">Download</button>
-  </a>
- <h1>Color Contrast Checker</h1>
- <label for="foregroundColor">Foreground Color (Hex):</label>
- <input type="text" id="foregroundColor" placeholder="Enter foreground color hex" required>
- <div class="color-square" id="foregroundSquare"></div>
- <label for="backgroundColor">Background Color (Hex):</label>
- <input type="text" id="backgroundColor" placeholder="Enter background color hex" required>
- <div class="color-square" id="backgroundSquare"></div>
- <button id="checkContrast">Check Contrast</button>
- <div id="result"></div>
- <div class="image-container" id="image-container" style="display: none">
-  <div class="image-item"><img id="image1" alt="Original Photo"></div>
-  <div class="image-item"><img id="image2" alt="Protanopia" class="protanopia"></div>
-  <div class="image-item"><img id="image3" alt="Deuteranopia" class="deuteranopia"></div>
-</div>
- <script src="contrast.js"></script>
-</body>
+      .contrast-result {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      th,
+      td {
+        border: none;
+        padding: 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: white;
+      }
+
+      td:first-child {
+        background-color: white;
+      }
+      #checkContrast {
+        background-color: rgb(233, 233, 233);
+        color: black;
+        padding: 10px;
+        margin: 0 10px;
+        margin-left: 100px;
+        cursor: pointer;
+        border-radius: 11px;
+        flex-grow: 1;
+        text-align: center;
+        font-size: 12px;
+        transition: background-color 0.3s;
+      }
+      #checkContrast:hover {
+        background-color: rgb(194, 194, 194);
+        border-radius: 11px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <button class="nav-button selected" onclick="goToPage('index.html')">
+        Color Contrast
+      </button>
+      <button class="nav-button" onclick="goToPage('index2.html')">
+        Color Blindness Filter
+      </button>
+    </div>
+    <!--<img id="image">-->
+    <a href="#" download="download" id="anchor" style="text-decoration: none">
+      <button id="download-button" style="display: none">Download</button>
+    </a>
+
+    <div class="contrast-container">
+      <div class="contrast-heading">
+        Enter hex codes (without #) to test contrast:
+      </div>
+      <div class="color-square" id="foregroundSquare"></div>
+      <div class="color-square" id="backgroundSquare"></div>
+      <div class="hex-input-container">
+        <input
+          type="text"
+          id="foregroundColor"
+          placeholder="Foreground"
+          required
+        />
+        <input
+          type="text"
+          id="backgroundColor"
+          placeholder="Background"
+          required
+        />
+      </div>
+      <button id="checkContrast">Check Contrast</button>
+      <div id="result"></div>
+      <div id="tableResult">
+        <table id="resultTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th id="textAA"></th>
+              <th id="textAAA"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="textAA3"></td>
+              <td id="AA"></td>
+              <td id="AAA"></td>
+            </tr>
+            <tr>
+              <td id="textAAA3"></td>
+              <td id="AALarge"></td>
+              <td id="AAALarge"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="tableResultNew">
+        <table id="resultTableNew">
+          <thead>
+            <tr>
+              <th></th>
+              <th id="textAA2"></th>
+              <th id="textAAA2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="textAA2A"></td>
+              <td id="AA2"></td>
+              <td id="AAA2"></td>
+            </tr>
+            <tr>
+              <td id="textAAA2A"></td>
+              <td id="AALarge2"></td>
+              <td id="AAALarge2"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="contrast.js"></script>
+    <script>
+      function goToPage(page) {
+        window.location.href = page;
+      }
+    </script>
+  </body>
 </html>
-
-
-
