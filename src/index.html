@@ -8,7 +8,7 @@
     <script src="rgblind.js"></script>
     <style>
       body {
-        font-family: Arial, sans-serif;
+        font-family: Optima, sans-serif;
         padding: 20px;
         margin: 0;
         padding: 20px;
@@ -33,9 +33,6 @@
       button:hover {
         background-color: #0056b3;
       }
-      #result {
-        margin-top: 20px;
-      }
       .color-square {
         width: 30px;
         height: 30px;
@@ -49,27 +46,52 @@
         height: auto;
       }
 
+      #image1 {
+        width: 0px;
+      }
+      #image2 {
+        width: 100px;
+      }
+      #image3 {
+        width: 100px;
+      }
       .image-container {
         display: flex;
-        flex-direction: column; /* Display images in a column */
+        flex-direction: row;
+      }
+
+      #leftHexText {
+        font-size: 14px;
+      }
+
+      #rightHexText {
+        font-size: 14px;
+      }
+
+      #newHexCodesText {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+        text-align: center;
       }
 
       .image-item img {
-        width: 100%; /* Make images take up the width of their container */
+        width: 50%;
         height: auto;
         display: block;
       }
 
       .image-item {
-        margin-bottom: 10px; /* Add space between images */
+        margin-bottom: 10px;
       }
-      /* New styles for image captions */
+
       .image-caption {
-        background-color: #f2f2f2; /* Grey background */
-        padding: 5px; /* Add padding */
-        text-align: center; /* Center text */
-        font-size: 15px; /* Adjust font size */
-        border-radius: 5px; /* Rounded edges */
+        width: 80%;
+        background-color: #f2f2f2;
+        padding: 5px;
+        text-align: center;
+        font-size: 15px;
+        border-radius: 5px;
       }
       body {
         font-family: Arial, sans-serif;
@@ -82,7 +104,7 @@
         margin-bottom: 5px;
       }
       input[type="text"] {
-        width: calc(50% - 15px); /* Adjusted width for side-by-side layout */
+        width: calc(50% - 15px);
         padding: 8px;
         margin-bottom: 10px;
         display: inline-block;
@@ -110,6 +132,14 @@
         background-color: #0056b3;
       }
       #result {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 20px;
+      }
+
+      #result2 {
+        text-align: center;
+        font-size: 14px;
         margin-top: 20px;
       }
       .navbar {
@@ -140,7 +170,7 @@
         justify-content: space-between;
       }
       .image-item img {
-        width: 100%;
+        width: 25%;
         height: auto;
         display: block;
       }
@@ -185,25 +215,82 @@
         font-size: 14px;
         outline: none;
       }
+      .hex-squares-container {
+        display: flex;
+        justify-content: center; /* Center components horizontally */
+        align-items: center;
+      }
 
       .hex-input-container {
         display: flex;
-        justify-content: space-between;
+        justify-content: center; /* Center components horizontally */
         align-items: center;
-        margin-bottom: 20px;
+        margin-top: 10px; /* Add margin for spacing */
       }
 
       input[type="text"] {
         border: 1px solid #ddd;
         padding: 10px;
         margin-top: 10px;
+        width: 110px;
         border-radius: 7px;
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      .button1 {
+        background-color: #fff;
+        border-radius: 7px;
+        font-size: 15px;
+        width: 140px;
+        height: 50px;
+        color: #fff;
+      }
+
+      .button2 {
+        background-color: #fff;
+        border-radius: 7px;
+        width: 140px;
+        font-size: 20px;
+        height: 50px;
+        color: #fff;
+      }
+
+      #normalAAImage {
+        background-color: #fff;
+        border-radius: 7px;
+        font-size: 15px;
+        width: 140px;
+        height: 50px;
+        color: #fff;
+      }
+      #largeAAAImage {
+        background-color: #fff;
+        border-radius: 7px;
+        width: 140px;
+        font-size: 20px;
+        height: 50px;
+        color: #fff;
+      }
+      #normalAAImage1 {
+        background-color: #fff;
+        border-radius: 7px;
+        font-size: 15px;
+        width: 140px;
+        height: 50px;
+        color: #fff;
+      }
+      #largeAAAImage1 {
+        background-color: #fff;
+        border-radius: 7px;
+        width: 140px;
+        font-size: 20px;
+        height: 50px;
+        color: #fff;
       }
 
       .contrast-result {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: bold;
       }
       th,
@@ -225,12 +312,12 @@
         color: black;
         padding: 10px;
         margin: 0 10px;
-        margin-left: 100px;
+        margin-left: 102px;
         cursor: pointer;
         border-radius: 11px;
         flex-grow: 1;
         text-align: center;
-        font-size: 12px;
+        font-size: 14px;
         transition: background-color 0.3s;
       }
       #checkContrast:hover {
@@ -245,7 +332,7 @@
       <button id="download-button" style="display: none">Download</button>
     </a>
     <div class="image-container" id="image-container" style="display: none">
-      <div class="image-item">
+      <div class="image-item" style="display: none">
         <img id="image1" alt="Original Photo" />
         <div class="image-caption">Original</div>
       </div>
@@ -262,8 +349,10 @@
       <div class="contrast-heading">
         Enter hex codes (without #) to test contrast:
       </div>
-      <div class="color-square" id="foregroundSquare"></div>
-      <div class="color-square" id="backgroundSquare"></div>
+      <div class="hex-squares-container">
+        <div class="color-square" id="foregroundSquare"></div>
+        <div class="color-square" id="backgroundSquare"></div>
+      </div>
       <div class="hex-input-container">
         <input
           type="text"
@@ -278,8 +367,10 @@
           required
         />
       </div>
-      <button id="checkContrast">Check Contrast</button>
+      <button id="checkContrast">Submit</button>
+
       <div id="result"></div>
+
       <div id="tableResult">
         <table id="resultTable">
           <thead>
@@ -291,18 +382,29 @@
           </thead>
           <tbody>
             <tr>
-              <td id="textAA3"></td>
+              <td>
+                <button id="normalAAImage">Normal Text</button>
+              </td>
               <td id="AA"></td>
               <td id="AAA"></td>
             </tr>
             <tr>
-              <td id="textAAA3"></td>
+              <td>
+                <button id="largeAAAImage">Large Text</button>
+              </td>
               <td id="AALarge"></td>
               <td id="AAALarge"></td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <div id="newHexCodesText">
+        <div id="leftHexText"></div>
+        <div id="rightHexText"></div>
+      </div>
+
+      <div id="result2"></div>
 
       <div id="tableResultNew">
         <table id="resultTableNew">
@@ -315,12 +417,16 @@
           </thead>
           <tbody>
             <tr>
-              <td id="textAA2A"></td>
+              <td>
+                <button id="normalAAImage1">Normal Text</button>
+              </td>
               <td id="AA2"></td>
               <td id="AAA2"></td>
             </tr>
             <tr>
-              <td id="textAAA2A"></td>
+              <td>
+                <button id="largeAAAImage1">Large Text</button>
+              </td>
               <td id="AALarge2"></td>
               <td id="AAALarge2"></td>
             </tr>

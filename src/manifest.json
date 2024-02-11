@@ -1,21 +1,21 @@
 {
-    "testId": "cb8ccb4d-6f24-441c-849f-63a39798ecc0",
-    "name": "Bingo Card Generator Js",
-    "version": "1.0.0",
-    "manifestVersion": 2,
-    "requirements": {
-        "apps": [
-            {
-                "name": "Express",
-                "apiVersion": 1
-            }
-        ]
-    },
-    "entryPoints": [
-        {
-            "type": "panel",
-            "id": "panel1",
-            "main": "index.html"
-        }
+  "testId": "cb8ccb4d-6f24-441c-849f-63a39798ecc0",
+  "name": "accessify",
+  "version": "1.0.0",
+  "manifestVersion": 2,
+  "requirements": {
+    "apps": [
+      {
+        "name": "Express",
+        "apiVersion": 1
+      }
     ]
+  },
+  "entryPoints": [
+    {
+      "type": "panel",
+      "id": "panel1",
+      "main": "index.html"
+    }
+  ]
 }
