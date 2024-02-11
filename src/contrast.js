@@ -114,7 +114,7 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
     ];
 
     if (foreColorHSL[2] > backColorHSL[2]) {
-      if (foreColorHSL[2] * 2 <= 95) {
+      if (foreColorHSL[2] * 2 <= 85) {
         document.getElementById("newForeSquare").style.backgroundColor = `hsl(${
           foreColorHSL[0]
         }, ${foreColorHSL[1]}%, ${foreColorHSL[2] * 2}%)`;
@@ -124,7 +124,7 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
         document.getElementById(
           "newForeSquare"
         ).style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, 95%)`;
-        foreColorHSL[2] = 95;
+        foreColorHSL[2] = 85;
       }
       document.getElementById("newBackSquare").style.backgroundColor = `hsl(${
         backColorHSL[0]
@@ -132,7 +132,7 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
       backColorHSL[2] = backColorHSL[2] / 2;
     } else {
       //console.log("backcolor is darker or they are the same");
-      if (backColorHSL[2] * 2 <= 95) {
+      if (backColorHSL[2] * 2 <= 85) {
         document.getElementById("newBackSquare").style.backgroundColor = `hsl(${
           backColorHSL[0]
         }, ${backColorHSL[1]}%, ${backColorHSL[2] * 2}%)`;
@@ -142,7 +142,7 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
         document.getElementById(
           "newBackSquare"
         ).style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, 95%)`;
-        backColorHSL[2] = 95;
+        backColorHSL[2] = 85;
       }
       document.getElementById("newForeSquare").style.backgroundColor = `hsl(${
         foreColorHSL[0]
@@ -166,29 +166,30 @@ async function getNewHexCodes(newForeColor, newBackColor) {
       fetch(foreColorCheckerUrl).then((res) => res.json()),
       fetch(backColorCheckerUrl).then((res) => res.json()),
     ]);
+
     const newForeColorHex = foreColorResponse.hex.value;
     const newBackColorHex = backColorResponse.hex.value;
 
-    const foreHexTextDiv = document.getElementById("newForeSquare");
+    /*const foreHexTextDiv = document.getElementById("newForeSquare");
     foreHexTextDiv.innerHTML = `<p>${newForeColorHex}</p>`;
 
     const backHexTextDiv = document.getElementById("newBackSquare");
-    backHexTextDiv.innerHTML = `<p>${newBackColorHex}</p>`;
+    backHexTextDiv.innerHTML = `<p>${newBackColorHex}</p>`;*/
     // const foreHexText = document.createElement("p");
     // foreHexText.textContent = newForeColorHex;
-    //const firstHexTextDiv = document.getElementById("leftHexText");
+    const firstHexTextDiv = document.getElementById("leftHexText");
     // document.getElementById("leftHexText").appendChild(foreHexText);
-    /*firstHexTextDiv.innerHTML = `
+    firstHexTextDiv.innerHTML = `
     <p>${newForeColorHex}</p>
-    `;*/
+    `;
 
     // const backHexText = document.createElement("p");
     // foreHexText.textContent = newForeColorHex;
-    //const backHexTextDiv = document.getElementById("rightHexText");
+    const backHexTextDiv = document.getElementById("rightHexText");
     // document.getElementById("rightHexText").appendChild(foreHexText);
-    /*backHexTextDiv.innerHTML = `
+    backHexTextDiv.innerHTML = `
     <p>${newBackColorHex}</p>
-    `;*/
+    `;
     getContrastRatio(newForeColorHex, newBackColorHex);
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
