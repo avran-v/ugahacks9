@@ -1,3 +1,4 @@
+const counter = -1; 
 function updateColorSquare(inputId, squareId) {
   const colorInput = document.getElementById(inputId).value.trim();
   const colorSquare = document.getElementById(squareId);
@@ -70,15 +71,20 @@ document.getElementById("checkContrast").addEventListener("click", function () {
       resultDiv.innerHTML = `
   <p>Contrast Ratio: ${data.ratio}:1</p>
   `;
+  let newForeSquare = document.getElementById("newForeSquare");
+  let newBackSquare = document.getElementById("newBackSquare");
 
-      const newDiv = document.createElement("div");
-
-      newDiv.innerHTML = `
-  <div class="color-square" id="newForeSquare"></div>
-  <div class="color-square" id="newBackSquare"></div>
-  `;
-      addSuggestedColors(foregroundColor, backgroundColor);
-      document.getElementById("tableResult").appendChild(newDiv);
+  if (!newForeSquare || !newBackSquare) {
+    const newDiv = document.createElement("div");
+    newDiv.innerHTML = `
+      <div class="color-square" id="newForeSquare"></div>
+      <div class="color-square" id="newBackSquare"></div>
+    `;
+    document.getElementById("tableResult").appendChild(newDiv);
+    newForeSquare = document.getElementById("newForeSquare");
+    newBackSquare = document.getElementById("newBackSquare");
+  }
+  addSuggestedColors(foregroundColor, backgroundColor); 
     })
     .catch((error) => {
       console.error("There was a problem with your fetch operation:", error);
@@ -143,6 +149,8 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
       }, ${foreColorHSL[1]}%, ${foreColorHSL[2] / 2}%)`;
       foreColorHSL[2] = foreColorHSL[2] / 2;
     }
+    console.log(foreColorHSL); 
+    console.log(backColorHSL); 
     getNewHexCodes(foreColorHSL, backColorHSL);
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
@@ -161,21 +169,26 @@ async function getNewHexCodes(newForeColor, newBackColor) {
     const newForeColorHex = foreColorResponse.hex.value;
     const newBackColorHex = backColorResponse.hex.value;
 
+    const foreHexTextDiv = document.getElementById("newForeSquare");
+    foreHexTextDiv.innerHTML = `<p>${newForeColorHex}</p>`;
+
+    const backHexTextDiv = document.getElementById("newBackSquare");
+    backHexTextDiv.innerHTML = `<p>${newBackColorHex}</p>`;
     // const foreHexText = document.createElement("p");
     // foreHexText.textContent = newForeColorHex;
-    const firstHexTextDiv = document.getElementById("leftHexText");
+    //const firstHexTextDiv = document.getElementById("leftHexText");
     // document.getElementById("leftHexText").appendChild(foreHexText);
-    firstHexTextDiv.innerHTML = `
+    /*firstHexTextDiv.innerHTML = `
     <p>${newForeColorHex}</p>
-    `;
+    `;*/
 
     // const backHexText = document.createElement("p");
     // foreHexText.textContent = newForeColorHex;
-    const backHexTextDiv = document.getElementById("rightHexText");
+    //const backHexTextDiv = document.getElementById("rightHexText");
     // document.getElementById("rightHexText").appendChild(foreHexText);
-    backHexTextDiv.innerHTML = `
+    /*backHexTextDiv.innerHTML = `
     <p>${newBackColorHex}</p>
-    `;
+    `;*/
     getContrastRatio(newForeColorHex, newBackColorHex);
   } catch (error) {
     console.error("There was a problem with your fetch operation:", error);
