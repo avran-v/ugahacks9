@@ -1,3 +1,6 @@
+### Submission for UGA Hacks 9. 
+### Winner of Most Creative Adobe Express Add-On, Honorable Mention State Farm Good Neighbour Challenge
+
 ## Team members
 Keerthi Veeramachaneni, Misry Dhanani, Shriya Rasale, and Subhasini Udhyakumar
 
