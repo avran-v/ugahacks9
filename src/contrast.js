@@ -1,4 +1,5 @@
 const counter = -1;
+
 function updateColorSquare(inputId, squareId) {
   const colorInput = document.getElementById(inputId).value.trim();
   const colorSquare = document.getElementById(squareId);
@@ -20,25 +21,17 @@ function updateButtonColors(buttonId, foregroundId, backgroundId) {
     : "#" + foregroundColor;
 }
 
-document
-  .getElementById("foregroundColor")
-  .addEventListener("input", function () {
-    updateColorSquare("foregroundColor", "foregroundSquare");
-  });
+document.getElementById("foregroundColor").addEventListener("input", function () {
+  updateColorSquare("foregroundColor", "foregroundSquare");
+});
 
-document
-  .getElementById("backgroundColor")
-  .addEventListener("input", function () {
-    updateColorSquare("backgroundColor", "backgroundSquare");
-  });
+document.getElementById("backgroundColor").addEventListener("input", function () {
+  updateColorSquare("backgroundColor", "backgroundSquare");
+});
 
 document.getElementById("checkContrast").addEventListener("click", function () {
-  const foregroundColor = document
-    .getElementById("foregroundColor")
-    .value.trim();
-  const backgroundColor = document
-    .getElementById("backgroundColor")
-    .value.trim();
+  const foregroundColor = document.getElementById("foregroundColor").value.trim();
+  const backgroundColor = document.getElementById("backgroundColor").value.trim();
 
   const apiUrl = `https://webaim.org/resources/contrastchecker/?fcolor=${foregroundColor}&bcolor=${backgroundColor}&api`;
 
@@ -52,23 +45,18 @@ document.getElementById("checkContrast").addEventListener("click", function () {
     .then((data) => {
       const resultDiv = document.getElementById("result");
 
-      // Display a checkmark or cross based on the contrast results
-      const aaResult =
-        data.AA === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
-      const aaaResult =
-        data.AAA === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
-      const aaLargeResult =
-        data.AALarge === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
-      const aaaLargeResult =
-        data.AAALarge === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaResult = data.AA === "pass"
+        ? '<span style="color: green; font-size: 30px;">✓</span>'
+        : '<span style="color: red; font-size: 30px;">✗</span>';
+      const aaaResult = data.AAA === "pass"
+        ? '<span style="color: green; font-size: 30px;">✓</span>'
+        : '<span style="color: red; font-size: 30px;">✗</span>';
+      const aaLargeResult = data.AALarge === "pass"
+        ? '<span style="color: green; font-size: 30px;">✓</span>'
+        : '<span style="color: red; font-size: 30px;">✗</span>';
+      const aaaLargeResult = data.AAALarge === "pass"
+        ? '<span style="color: green; font-size: 30px;">✓</span>'
+        : '<span style="color: red; font-size: 30px;">✗</span>';
 
       updateButtonColors("normalAAImage", "foregroundColor", "backgroundColor");
       updateButtonColors("largeAAAImage", "foregroundColor", "backgroundColor");
@@ -82,29 +70,42 @@ document.getElementById("checkContrast").addEventListener("click", function () {
 
       const additional = document.getElementById("additional");
       additional.innerHTML = `
-      <hr style="border: 2px solid #ddd;">
-      <p style="font-size: 16px;">For more information, visit <a href="https://webaim.org" target="_blank">WebAIM</a>.</p>
-    `;
+        <hr style="border: 2px solid #ddd;">
+        <p style="font-size: 16px;">For more information, visit <a href="https://webaim.org" target="_blank">WebAIM</a>.</p>
+      `;
 
       resultDiv.innerHTML = `
-      <hr style="border: 2px solid #ddd;">
-      <p style="font-size: 16;">Contrast Ratio: </p>
-  <p style="font-weight: bold;">${data.ratio}:1</p>
-  `;
-      let newForeSquare = document.getElementById("newForeSquare");
-      let newBackSquare = document.getElementById("newBackSquare");
+        <hr style="border: 2px solid #ddd;">
+        <p style="font-size: 16px;">Contrast Ratio: </p>
+        <p style="font-weight: bold;">${data.ratio}:1</p>
+      `;
 
-      if (!newForeSquare || !newBackSquare) {
+      let newForeSquare1 = document.getElementById("newForeSquare1");
+      let newBackSquare1 = document.getElementById("newBackSquare1");
+      let newForeSquare2 = document.getElementById("newForeSquare2");
+      let newBackSquare2 = document.getElementById("newBackSquare2");
+      let newForeSquare3 = document.getElementById("newForeSquare3");
+      let newBackSquare3 = document.getElementById("newBackSquare3");
+
+      if (!newForeSquare1 || !newBackSquare1 || !newForeSquare2 || !newBackSquare2 || !newForeSquare3 || !newBackSquare3) {
         const newDiv = document.createElement("div");
         newDiv.innerHTML = `
-    <hr style="border: 2px solid #ddd;">
-    <p style="font-size: 16px; margin-left:2px">  Look at alternative colors below!</p>
-      <div class="color-square" id="newForeSquare"></div>
-      <div class="color-square" id="newBackSquare"></div>
-    `;
+          <hr style="border: 2px solid #ddd;">
+          <p style="font-size: 16px; margin-left: 2px;">Look at alternative colors below!</p>
+          <div class="color-square" id="newForeSquare1"></div>
+          <div class="color-square" id="newForeSquare2"></div>
+          <div class="color-square" id="newForeSquare3"></div>
+          <div class="color-square" id="newBackSquare1"></div>
+          <div class="color-square" id="newBackSquare2"></div>
+          <div class="color-square" id="newBackSquare3"></div>
+        `;
         document.getElementById("tableResult").appendChild(newDiv);
-        newForeSquare = document.getElementById("newForeSquare");
-        newBackSquare = document.getElementById("newBackSquare");
+        newForeSquare1 = document.getElementById("newForeSquare1");
+        newBackSquare1 = document.getElementById("newBackSquare1");
+        newForeSquare2 = document.getElementById("newForeSquare2");
+        newBackSquare2 = document.getElementById("newBackSquare2");
+        newForeSquare3 = document.getElementById("newForeSquare3");
+        newBackSquare3 = document.getElementById("newBackSquare3");
       }
       addSuggestedColors(foregroundColor, backgroundColor);
     })
@@ -115,164 +116,86 @@ document.getElementById("checkContrast").addEventListener("click", function () {
 
 async function addSuggestedColors(foregroundColor, backgroundColor) {
   const foreColorCheckerUrl = `https://www.thecolorapi.com/id?hex=${foregroundColor}&format=json`;
-  console.log(foreColorCheckerUrl);
   const backColorCheckerUrl = `https://www.thecolorapi.com/id?hex=${backgroundColor}&format=json`;
-  console.log(backColorCheckerUrl);
 
   try {
     const [foreColorResponse, backColorResponse] = await Promise.all([
       fetch(foreColorCheckerUrl).then((res) => res.json()),
       fetch(backColorCheckerUrl).then((res) => res.json()),
     ]);
-    const foreColorHSL = [
+
+    let foreColorHSL = [
       foreColorResponse.hsl.h,
       foreColorResponse.hsl.s,
       foreColorResponse.hsl.l,
     ];
-    const backColorHSL = [
+    let backColorHSL = [
       backColorResponse.hsl.h,
       backColorResponse.hsl.s,
       backColorResponse.hsl.l,
     ];
 
+    const adjustLightness = (hsl, factor) => {
+      let newLightness = hsl[2] * factor;
+      if (newLightness > 100) newLightness = 100;
+      if (newLightness < 0) newLightness = 0;
+      return [hsl[0], hsl[1], newLightness];
+    };
+
+    let foreShades = [];
+    let backShades = [];
+
     if (foreColorHSL[2] > backColorHSL[2]) {
-      if (foreColorHSL[2] * 2 <= 85) {
-        document.getElementById("newForeSquare").style.backgroundColor = `hsl(${
-          foreColorHSL[0]
-        }, ${foreColorHSL[1]}%, ${foreColorHSL[2] * 2}%)`;
-        foreColorHSL[2] = foreColorHSL[2] * 2;
-      } else {
-        //automatically use light value of 85
-        document.getElementById(
-          "newForeSquare"
-        ).style.backgroundColor = `hsl(${foreColorHSL[0]}, ${foreColorHSL[1]}%, 85%)`;
-        foreColorHSL[2] = 85;
-      }
-      document.getElementById("newBackSquare").style.backgroundColor = `hsl(${
-        backColorHSL[0]
-      }, ${backColorHSL[1]}%, ${backColorHSL[2] / 2}%)`;
+      foreColorHSL[2] = Math.min(foreColorHSL[2] * 2, 85);
       backColorHSL[2] = backColorHSL[2] / 2;
+      foreShades = [
+        foreColorHSL,
+        adjustLightness(foreColorHSL, 0.85),
+        adjustLightness(foreColorHSL, 0.7),
+      ];
+      backShades = [
+        backColorHSL,
+        adjustLightness(backColorHSL, 1.15),
+        adjustLightness(backColorHSL, 1.3),
+      ];
     } else {
-      //console.log("backcolor is darker or they are the same");
-      if (backColorHSL[2] * 2 <= 85) {
-        document.getElementById("newBackSquare").style.backgroundColor = `hsl(${
-          backColorHSL[0]
-        }, ${backColorHSL[1]}%, ${backColorHSL[2] * 2}%)`;
-        backColorHSL[2] = backColorHSL[2] * 2;
-      } else {
-        //automatically use light value of 85
-        document.getElementById(
-          "newBackSquare"
-        ).style.backgroundColor = `hsl(${backColorHSL[0]}, ${backColorHSL[1]}%, 85%)`;
-        backColorHSL[2] = 85;
-      }
-      document.getElementById("newForeSquare").style.backgroundColor = `hsl(${
-        foreColorHSL[0]
-      }, ${foreColorHSL[1]}%, ${foreColorHSL[2] / 2}%)`;
+      backColorHSL[2] = Math.min(backColorHSL[2] * 2, 85);
       foreColorHSL[2] = foreColorHSL[2] / 2;
+      foreShades = [
+        foreColorHSL,
+        adjustLightness(foreColorHSL, 1.15),
+        adjustLightness(foreColorHSL, 1.3),
+      ];
+      backShades = [
+        backColorHSL,
+        adjustLightness(backColorHSL, 0.85),
+        adjustLightness(backColorHSL, 0.7),
+      ];
     }
-    console.log(foreColorHSL);
-    console.log(backColorHSL);
-    getNewHexCodes(foreColorHSL, backColorHSL);
+
+    document.getElementById("newForeSquare1").style.backgroundColor = `hsl(${foreShades[0][0]}, ${foreShades[0][1]}%, ${foreShades[0][2]}%)`;
+    document.getElementById("newForeSquare2").style.backgroundColor = `hsl(${foreShades[1][0]}, ${foreShades[1][1]}%, ${foreShades[1][2]}%)`;
+    document.getElementById("newForeSquare3").style.backgroundColor = `hsl(${foreShades[2][0]}, ${foreShades[2][1]}%, ${foreShades[2][2]}%)`;
+
+    document.getElementById("newBackSquare1").style.backgroundColor = `hsl(${backShades[0][0]}, ${backShades[0][1]}%, ${backShades[0][2]}%)`;
+    document.getElementById("newBackSquare2").style.backgroundColor = `hsl(${backShades[1][0]}, ${backShades[1][1]}%, ${backShades[1][2]}%)`;
+    document.getElementById("newBackSquare3").style.backgroundColor = `hsl(${backShades[2][0]}, ${backShades[2][1]}%, ${backShades[2][2]}%)`;
+
+    // document.getElementById("result").innerHTML += `
+    //   <p style="font-size: 14px;">Suggested Foreground Colors:</p>
+    //   <div style="display: flex;">
+    //     <div style="width: 20px; height: 20px; background-color: hsl(${foreShades[0][0]}, ${foreShades[0][1]}%, ${foreShades[0][2]}%);"></div>
+    //     <div style="width: 20px; height: 20px; background-color: hsl(${foreShades[1][0]}, ${foreShades[1][1]}%, ${foreShades[1][2]}%);"></div>
+    //     <div style="width: 20px; height: 20px; background-color: hsl(${foreShades[2][0]}, ${foreShades[2][1]}%, ${foreShades[2][2]}%);"></div>
+    //   </div>
+    //   <p style="font-size: 14px;">Suggested Background Colors:</p>
+    //   <div style="display: flex;">
+    //     <div style="width: 20px; height: 20px; background-color: hsl(${backShades[0][0]}, ${backShades[0][1]}%, ${backShades[0][2]}%);"></div>
+    //     <div style="width: 20px; height: 20px; background-color: hsl(${backShades[1][0]}, ${backShades[1][1]}%, ${backShades[1][2]}%);"></div>
+    //     <div style="width: 20px; height: 20px; background-color: hsl(${backShades[2][0]}, ${backShades[2][1]}%, ${backShades[2][2]}%);"></div>
+    //   </div>
+    // `;
   } catch (error) {
-    console.error("There was a problem with your fetch operation:", error);
+    console.error("There was a problem with fetching color data:", error);
   }
-}
-
-async function getNewHexCodes(newForeColor, newBackColor) {
-  //GET https://www.thecolorapi.com/id?hex=0047AB&rgb=0,71,171&hsl=215,100%,34%&cmyk=100,58,0,33&format=html
-  const foreColorCheckerUrl = `https://www.thecolorapi.com/id?hsl=${newForeColor[0]},${newForeColor[1]}%,${newForeColor[2]}%&format=json`;
-  const backColorCheckerUrl = `https://www.thecolorapi.com/id?hsl=${newBackColor[0]},${newBackColor[1]}%,${newBackColor[2]}%&format=json`;
-  try {
-    const [foreColorResponse, backColorResponse] = await Promise.all([
-      fetch(foreColorCheckerUrl).then((res) => res.json()),
-      fetch(backColorCheckerUrl).then((res) => res.json()),
-    ]);
-
-    const newForeColorHex = foreColorResponse.hex.value;
-    const newBackColorHex = backColorResponse.hex.value;
-
-    /*const foreHexTextDiv = document.getElementById("newForeSquare");
-    foreHexTextDiv.innerHTML = `<p>${newForeColorHex}</p>`;
-
-    const backHexTextDiv = document.getElementById("newBackSquare");
-    backHexTextDiv.innerHTML = `<p>${newBackColorHex}</p>`;*/
-    // const foreHexText = document.createElement("p");
-    // foreHexText.textContent = newForeColorHex;
-    const firstHexTextDiv = document.getElementById("leftHexText");
-    // document.getElementById("leftHexText").appendChild(foreHexText);
-    firstHexTextDiv.innerHTML = `
-    <p>${newForeColorHex}</p>
-    `;
-
-    // const backHexText = document.createElement("p");
-    // foreHexText.textContent = newForeColorHex;
-    const backHexTextDiv = document.getElementById("rightHexText");
-    // document.getElementById("rightHexText").appendChild(foreHexText);
-    backHexTextDiv.innerHTML = `
-    <p>${newBackColorHex}</p>
-    `;
-    getContrastRatio(newForeColorHex, newBackColorHex);
-  } catch (error) {
-    console.error("There was a problem with your fetch operation:", error);
-  }
-}
-
-async function getContrastRatio(newForeColor, newBackColor) {
-  const foregroundColor = newForeColor.substring(1);
-  const backgroundColor = newBackColor.substring(1);
-
-  const apiUrl = `https://webaim.org/resources/contrastchecker/?fcolor=${foregroundColor}&bcolor=${backgroundColor}&api`;
-
-  fetch(apiUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      const resultDiv = document.getElementById("result2");
-
-      const aaResult =
-        data.AA === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
-      const aaaResult =
-        data.AAA === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
-      const aaLargeResult =
-        data.AALarge === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
-      const aaaLargeResult =
-        data.AAALarge === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
-
-      const leftbutton = document.getElementById("normalAAImage1");
-      const rightbutton = document.getElementById("largeAAAImage1");
-
-      leftbutton.style.backgroundColor = newBackColor;
-      leftbutton.style.color = newForeColor;
-      rightbutton.style.backgroundColor = newBackColor;
-      rightbutton.style.color = newForeColor;
-
-      document.getElementById("AA2").innerHTML = aaResult;
-      document.getElementById("AAA2").innerHTML = aaaResult;
-      document.getElementById("AALarge2").innerHTML = aaLargeResult;
-      document.getElementById("AAALarge2").innerHTML = aaaLargeResult;
-      document.getElementById("textAA2").innerHTML = "AA";
-      document.getElementById("textAAA2").innerHTML = "AAA";
-
-      resultDiv.innerHTML = `
-      <p style="font-size: 16;">Contrast Ratio: </p>
-  <p style="font-weight: bold;">${data.ratio}:1</p>
-    `;
-      console.log("Contrast Ratio: " + data.ratio);
-    })
-    .catch((error) => {
-      console.error("There was a problem with your fetch operation:", error);
-    });
 }
