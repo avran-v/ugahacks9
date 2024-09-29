@@ -75,7 +75,7 @@ document.getElementById('generatePalette').addEventListener('click', async funct
 
 
 async function getGeneratedColors(description) {
-    const apiKey = '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';  // Replace with your OpenAI API key
+    const apiKey = 'replaceWithKeyInNotes'; //replace with actual api key
 
     // Prepare the API request payload
     const data = {
