@@ -6,10 +6,19 @@
     <title>Color Contrast Checker</title>
     <script type="module" src="index.js"></script>
     <script type="module" src="contrast.js"></script>
-    <script src="rgblind.js"></script>
+    <script type="module" src="rgblind.js"></script>
+    <script type="module" src="ai.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bad-words"></script>
+
     <style>
+        @font-face {
+    font-family: 'Adobe Clean';
+    src: url('../fonts/AdobeClean/AdobeClean-Regular.otf') format('otf');
+    font-weight: 400;
+    font-style: normal;
+        }
         body {
-            /*font-family: Optima, sans-serif;*/
+            font-family: 'Adobe Clean', sans-serif;
             padding: 20px;
             margin: 0;
             box-sizing: border-box;
@@ -90,7 +99,7 @@
             cursor: pointer;
             background-color: #ffffff; /* Default color to white */
             outline:  1px solid #ddd; /* Grey outline */
-            border-radius: 10px;
+            /*border-radius: 10px;*/
             
             /*display: none;  Hide color pickers */
         }
@@ -102,8 +111,8 @@
         }
         .color-picker-icon {
             position: absolute;
-            right: 8px;
-            bottom: 8px;
+            right: 10px;
+            bottom: 12px;
             width: 20px;
             height: 20px;
             pointer-events: none; /* Let the click event go to the input element */
@@ -140,6 +149,93 @@
         .tab-content.active {
             display: block;
         }
+        .ai-color-helper {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+
+#charCountdown {
+    text-align: right;
+    font-size: 14px;
+    color: #555;
+}
+
+#colorPalette {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    gap: 20px; /* Spacing between color boxes */
+    justify-items: center; /* Center the color boxes horizontally */
+    margin-top: 20px;
+}
+
+.color-box {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+.color-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px; /* Set width of each color box */
+}
+
+.hex-box {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    position: relative;
+}
+
+.hex-input {
+    width: 100px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    position: relative;
+}
+
+.clipboard-icon {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+}
+.color-box {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3 columns */
+    gap: 20px;  /* Gap between colors */
+    justify-items: center;
+}
+
+.disclaimer {
+    font-size: 10px; /* Adjust the size as needed */
+    color: #555; /* You can also change the color if you want */
+}
     </style>
 </head>
 <body>
@@ -162,11 +258,11 @@
               <div class="hex-squares-container">
                 <div class="color-picker-container">
                     <input type="color" id="foregroundColorPicker" value="#ffffff" />
-                    <img src="../assets/color-picker-icon.png" class="color-picker-icon" alt="color picker icon" />
+                    <img src="assets/color-picker-icon.png" class="color-picker-icon" alt="color picker icon" />
                 </div>
                 <div class="color-picker-container">
                     <input type="color" id="backgroundColorPicker" value="#ffffff" />
-                    <img src="../assets/color-picker-icon.png" class="color-picker-icon" alt="color picker icon" />
+                    <img src="assets/color-picker-icon.png" class="color-picker-icon" alt="color picker icon" />
                 </div>
             </div>
                 <div>
@@ -207,9 +303,23 @@
     </div>
 
     <div class="tab-content" id="AI">
-        <h2>Briefly describe your theme and we will give you a similar color pallete with accessible colors.</h2>
-        <p>Disclaimer: sjfnajaskfjsakfk;</p>
+        <h3>Briefly describe your theme and we will give you a similar color palette with accessible colors.</h3>
+        <textarea id="colorDescription" maxLength="50" rows="4" placeholder="Describe your color palette..."></textarea>
+        <p id="charCountdown">50 characters remaining</p>
+        <button id="generatePalette">Generate Palette</button>
+    
+        <div id="paletteResults" style="display:none;">
+            <h3>Your Color Palette:</h3>
+            <div id="colorPalette" class="palette-grid"></div>
+        </div>
+        
+        <!-- Apply the "disclaimer" class to the disclaimer paragraph -->
+        <p class="disclaimer">Disclaimer: It is up to your discretion of how you utilize this color palette, but make sure you check the contrast of any text or designs. 
+            <a href="https://www.wcag.com/designers/" target="_blank" style="color: #007bff; text-decoration: underline;">Click here</a> 
+            for more information on how to check if your design is accessible.
+        </p>
     </div>
+    
 
     <div class="tab-content" id="palleteFeedback">
       <h2>Check all the colors in your design at once!</h2>
