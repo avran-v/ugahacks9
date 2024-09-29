@@ -1,5 +1,7 @@
 import AddOnSdk from "https://new.express.adobe.com/static/add-on-sdk/sdk.js";
 
+
+console.log("JavaScript is running");
 // Wait for the SDK to be ready
 await AddOnSdk.ready;
 

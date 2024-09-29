@@ -21,15 +21,16 @@ function updateButtonColors(buttonId, foregroundId, backgroundId) {
     : "#" + foregroundColor;
 }
 
-document.getElementById("foregroundColor").addEventListener("input", function () {
-  updateColorSquare("foregroundColor", "foregroundSquare");
-});
+//document.getElementById("foregroundColor").addEventListener("input", function () {
+ // updateColorSquare("foregroundColor", "foregroundSquare");
+//});
 
-document.getElementById("backgroundColor").addEventListener("input", function () {
-  updateColorSquare("backgroundColor", "backgroundSquare");
-});
+//document.getElementById("backgroundColor").addEventListener("input", function () {
+  //updateColorSquare("backgroundColor", "backgroundSquare");
+//});
 
 document.getElementById("checkContrast").addEventListener("click", function () {
+  console.log("button works")
   const foregroundColor = document.getElementById("foregroundColor").value.trim();
   const backgroundColor = document.getElementById("backgroundColor").value.trim();
 
