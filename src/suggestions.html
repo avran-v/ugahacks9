@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Suggestions</title>
+    <style>
+        body {
+            font-family: Optima, sans-serif;
+            padding: 20px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+        }
+        .suggestion-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .color-square {
+            width: 100px;
+            height: 60px;
+            display: inline-block;
+            border-radius: 10px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+        .color-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff; /* Default text color */
+            font-weight: bold;
+        }
+        .suggested-colors {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Color Suggestions</h1>
+    <div class="suggestion-container">
+        <p>Here are some suggested color combinations for better contrast:</p>
+        <!-- <div class="suggested-colors">
+            <div class="color-square" id="suggestedColor1"><span class="color-text" id="textColor1"></span></div>
+            <div class="color-square" id="suggestedColor2"><span class="color-text" id="textColor2"></span></div>
+            <div class="color-square" id="suggestedColor3"><span class="color-text" id="textColor3"></span></div>
+        </div> -->
+        <!-- <a class="back-button" href="index.html">Back to Color Contrast Checker</a> -->
+    </div>
+
+    <!-- <script>
+        // Example colors; you can replace this with dynamic data from your color suggestion logic
+        const suggestedColors = [
+            { foreground: '#ffffff', background: '#000000' },
+            { foreground: '#000000', background: '#ffffff' },
+            { foreground: '#ff0000', background: '#0000ff' },
+        ];
+
+        // // Function to display suggested colors
+        // function displaySuggestedColors() {
+        //     suggestedColors.forEach((color, index) => {
+        //         const colorSquare = document.getElementById(`suggestedColor${index + 1}`);
+        //         const textColor = document.getElementById(`textColor${index + 1}`);
+
+        //         colorSquare.style.backgroundColor = color.background; // Set the background color
+        //         textColor.innerText = color.foreground; // Set the foreground color text
+        //         textColor.style.color = color.foreground; // Set text color for better visibility
+        //     });
+        // }
+
+        // displaySuggestedColors(); // Call function to display colors on page load
+    </script> -->
+</body>
+</html>
