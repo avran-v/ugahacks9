@@ -75,7 +75,7 @@ document.getElementById('generatePalette').addEventListener('click', async funct
 
 
 async function getGeneratedColors(description) {
-    const apiKey = 'replaceWithKeyInNotes'; //replace with actual api key
+    const apiKey = ''; //replace with actual api key
 
     // Prepare the API request payload
     const data = {

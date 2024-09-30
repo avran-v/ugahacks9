@@ -1,5 +1,9 @@
 const counter = -1;
 
+var suggestedColor1; 
+var suggestedColor2; 
+var lastUpdated = 0; 
+
 function updateColorSquare(inputId, squareId) {
   const colorInput = document.getElementById(inputId).value.trim();
   const colorSquare = document.getElementById(squareId);
@@ -68,6 +72,52 @@ document.getElementById("checkContrast").addEventListener("click", function () {
           document.getElementById("AALarge").innerHTML = aaLargeResult;
           document.getElementById("AAALarge").innerHTML = aaaLargeResult;
 
+          let newForeSquare1 = document.getElementById("newForeSquare1");
+          let newBackSquare1 = document.getElementById("newBackSquare1");
+          let newForeSquare2 = document.getElementById("newForeSquare2");
+          let newBackSquare2 = document.getElementById("newBackSquare2");
+          let newForeSquare3 = document.getElementById("newForeSquare3");
+          let newBackSquare3 = document.getElementById("newBackSquare3");
+
+          if (!newForeSquare1 || !newBackSquare1 || !newForeSquare2 || !newBackSquare2 || !newForeSquare3 || !newBackSquare3) {
+            const newDiv = document.createElement("div");
+            newDiv.innerHTML = `
+              <hr style="border: 2px solid #ddd;">
+              <p style="font-size: 16px; margin-left: 2px;">Look at alternative colors below!</p>
+              <div class="color-square" id="newForeSquare1"></div>
+              <div class="color-square" id="newForeSquare2"></div>
+              <div class="color-square" id="newForeSquare3"></div>
+              <div class="color-square" id="newBackSquare1"></div>
+              <div class="color-square" id="newBackSquare2"></div>
+              <div class="color-square" id="newBackSquare3"></div>
+            `;
+            document.getElementById("tableResult").appendChild(newDiv);
+            newForeSquare1 = document.getElementById("newForeSquare1");
+            newBackSquare1 = document.getElementById("newBackSquare1");
+            newForeSquare2 = document.getElementById("newForeSquare2");
+            newBackSquare2 = document.getElementById("newBackSquare2");
+            newForeSquare3 = document.getElementById("newForeSquare3");
+            newBackSquare3 = document.getElementById("newBackSquare3");
+          }
+          addSuggestedColors(foregroundColor, backgroundColor);
+          newForeSquare1.addEventListener("click", function() {
+            dynamicContrastRatio(newForeSquare1.id)
+          });
+          newForeSquare2.addEventListener("click", function() {
+            dynamicContrastRatio(newForeSquare2.id)
+          });
+          newForeSquare3.addEventListener("click", function() {
+            dynamicContrastRatio(newForeSquare3.id)
+          });
+          newBackSquare1.addEventListener("click", function() {
+            dynamicContrastRatio(newBackSquare1.id)
+          });
+          newBackSquare2.addEventListener("click", function() {
+            dynamicContrastRatio(newBackSquare2.id)
+          });
+          newBackSquare3.addEventListener("click", function() {
+            dynamicContrastRatio(newBackSquare3.id)
+          });
           const resultDiv = document.getElementById("result");
           resultDiv.innerHTML = "Contrast results updated.";
       })
@@ -78,6 +128,32 @@ document.getElementById("checkContrast").addEventListener("click", function () {
       });
 });
 
+async function dynamicContrastRatio(divId){
+  const element = document.getElementById(divId);
+  if (element){
+    const style = window.getComputedStyle(element);
+    const rgbColor = style.getPropertyValue('background-color');
+
+    const rgbToHex = (rgb) => {
+      const rgbValues = rgb.match(/\d+/g).map(Number);
+      return `#${rgbValues.map(value => value.toString(16).padStart(2, '0')).join('')}`;
+    };
+    const hexColor = rgbToHex(rgbColor);
+
+    if (lastUpdated == 0 || lastUpdated == 2) {
+      // no colors have been selected 
+      suggestedColor1 =  hexColor; 
+      lastUpdated = 1; 
+    } else if (lastUpdated == 1) { 
+      // last color updated was assigned to the second variable 
+      suggestedColor2 =  hexColor; 
+      lastUpdated = 2; 
+    }
+    if (typeof suggestedColor1 !== 'undefined' && typeof suggestedColor2 !== 'undefined') {
+      getContrastRatio(suggestedColor1, suggestedColor2)
+    } 
+  }
+}
 
 async function addSuggestedColors(foregroundColor, backgroundColor) {
   const foreColorCheckerUrl = `https://www.thecolorapi.com/id?hex=${foregroundColor}&format=json`;
@@ -163,4 +239,56 @@ async function addSuggestedColors(foregroundColor, backgroundColor) {
   } catch (error) {
     console.error("There was a problem with fetching color data:", error);
   }
+}
+
+async function getContrastRatio(newForeColor, newBackColor) {
+  const foregroundColor = newForeColor.substring(1);
+  const backgroundColor = newBackColor.substring(1);
+  const apiUrl = `https://webaim.org/resources/contrastchecker/?fcolor=${foregroundColor}&bcolor=${backgroundColor}&api`;
+  fetch(apiUrl)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const resultDiv = document.getElementById("result2");
+      const aaResult =
+        data.AA === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaaResult =
+        data.AAA === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaLargeResult =
+        data.AALarge === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const aaaLargeResult =
+        data.AAALarge === "pass"
+          ? '<span style="color: green; font-size="30px">✓</span>'
+          : '<span style="color: red; font-size="30px">✗</span>';
+      const leftbutton = document.getElementById("normalAAImage1");
+      const rightbutton = document.getElementById("largeAAAImage1");
+      leftbutton.style.backgroundColor = newBackColor;
+      leftbutton.style.color = newForeColor;
+      rightbutton.style.backgroundColor = newBackColor;
+      rightbutton.style.color = newForeColor;
+      document.getElementById("AA2").innerHTML = aaResult;
+      document.getElementById("AAA2").innerHTML = aaaResult;
+      document.getElementById("AALarge2").innerHTML = aaLargeResult;
+      document.getElementById("AAALarge2").innerHTML = aaaLargeResult;
+      document.getElementById("textAA2").innerHTML = "AA";
+      document.getElementById("textAAA2").innerHTML = "AAA";
+      resultDiv.innerHTML = `
+      <p style="font-size: 16;">Contrast Ratio: </p>
+      <p style="font-weight: bold;">${data.ratio}:1</p>
+    `;
+      console.log("Contrast Ratio: " + data.ratio);
+    })
+    .catch((error) => {
+      console.error("There was a problem with your fetch operation:", error);
+    });
 }
