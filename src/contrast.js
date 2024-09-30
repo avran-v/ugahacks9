@@ -71,6 +71,8 @@ document.getElementById("checkContrast").addEventListener("click", function () {
           document.getElementById("AAA").innerHTML = aaaResult;
           document.getElementById("AALarge").innerHTML = aaLargeResult;
           document.getElementById("AAALarge").innerHTML = aaaLargeResult;
+          document.getElementById("textAA").innerHTML = "AA";
+          document.getElementById("textAAA").innerHTML = "AAA";
 
           let newForeSquare1 = document.getElementById("newForeSquare1");
           let newBackSquare1 = document.getElementById("newBackSquare1");
@@ -83,7 +85,7 @@ document.getElementById("checkContrast").addEventListener("click", function () {
             const newDiv = document.createElement("div");
             newDiv.innerHTML = `
               <hr style="border: 2px solid #ddd;">
-              <p style="font-size: 16px; margin-left: 2px;">Look at alternative colors below!</p>
+              <p style="font-size: 16px; margin-left: 2px;">Look at alternative colors below - pick two colors to see their contrast!</p>
               <div class="color-square" id="newForeSquare1"></div>
               <div class="color-square" id="newForeSquare2"></div>
               <div class="color-square" id="newForeSquare3"></div>
@@ -119,7 +121,7 @@ document.getElementById("checkContrast").addEventListener("click", function () {
             dynamicContrastRatio(newBackSquare3.id)
           });
           const resultDiv = document.getElementById("result");
-          resultDiv.innerHTML = "Contrast results updated.";
+          //resultDiv.innerHTML = "Contrast results updated.";
       })
       .catch((error) => {
           console.error("Error fetching data:", error);
@@ -256,20 +258,20 @@ async function getContrastRatio(newForeColor, newBackColor) {
       const resultDiv = document.getElementById("result2");
       const aaResult =
         data.AA === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
+          ? '<span style="color: green; font-size="30px;">✓</span>'
+          : '<span style="color: red; font-size="30px;">✗</span>';
       const aaaResult =
         data.AAA === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
+          ? '<span style="color: green; font-size="30px;">✓</span>'
+          : '<span style="color: red; font-size="30px;">✗</span>';
       const aaLargeResult =
         data.AALarge === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
+          ? '<span style="color: green; font-size="30px;">✓</span>'
+          : '<span style="color: red; font-size="30px;">✗</span>';
       const aaaLargeResult =
         data.AAALarge === "pass"
-          ? '<span style="color: green; font-size="30px">✓</span>'
-          : '<span style="color: red; font-size="30px">✗</span>';
+          ? '<span style="color: green; font-size="30px;">✓</span>'
+          : '<span style="color: red; font-size="30px;">✗</span>';
       const leftbutton = document.getElementById("normalAAImage1");
       const rightbutton = document.getElementById("largeAAAImage1");
       leftbutton.style.backgroundColor = newBackColor;
