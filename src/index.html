@@ -36,15 +36,18 @@
             box-sizing: border-box;
         }
         button {
-            padding: 10px 20px;
-            background-color: #007bff;
+            display: block;            /* Makes the button a block element */
+            margin: 20px auto;       /* Centers the button with automatic margins */
+            padding: 8px 16px;        /* Smaller padding */
+            background-color: #2a8ef9;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;          /* Smaller font size */
             transition: background-color 0.3s;
         }
+
         button:hover {
             background-color: #0056b3;
         }
@@ -80,6 +83,15 @@
             margin-top: 20px;
         }
         .contrast-container {
+            max-width: 480px;
+            margin: 25px auto;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .ai-container {
             max-width: 480px;
             margin: 25px auto;
             background-color: #fff;
@@ -184,14 +196,6 @@ textarea {
     color: #555;
 }
 
-#colorPalette {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three columns */
-    gap: 20px; /* Spacing between color boxes */
-    justify-items: center; /* Center the color boxes horizontally */
-    margin-top: 20px;
-}
-
 .color-box {
     width: 50px;
     height: 50px;
@@ -241,11 +245,28 @@ textarea {
     border: 2px solid #ddd;
     border-radius: 5px;
 }
+
 .palette-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);  /* 3 columns */
-    gap: 20px;  /* Gap between colors */
+    grid-template-columns: repeat(2, 1fr);  /* 2 columns */
+    grid-template-rows: repeat(3, 1fr);      /* 3 rows */
+    gap: 15px;                               /* Gap between colors */
     justify-items: center;
+    height: 100%;                            /* Ensure it stretches to fill its container */
+}
+
+.paletteResults {
+    width: 80%;
+    max-width: 300px;                       /* Optional: Set a max width for the results */
+}
+
+#colorDescription {
+    width: 80%;         /* Make the text area full width */
+    max-width: 300px;   /* Set a maximum width for the text area */
+    height: 60px;       /* Adjust height for a smaller appearance */
+    resize: none;       /* Prevent resizing */
+    padding: 10px;      /* Add padding for better text visibility */
+    font-size: 14px;    /* Smaller font size */
 }
 
 .disclaimer {
@@ -389,6 +410,7 @@ textarea {
     </div>
 
     <div class="tab-content" id="AI">
+        <div class="ai-container">
         <h3>Briefly describe your theme and we will give you a similar color palette with accessible colors.</h3>
         <textarea id="colorDescription" maxLength="50" rows="4" placeholder="Describe your color palette..."></textarea>
         <p id="charCountdown">50 characters remaining</p>
@@ -400,11 +422,12 @@ textarea {
         </div>
         
         <!-- Apply the "disclaimer" class to the disclaimer paragraph -->
-        <p class="disclaimer">Disclaimer: It is up to your discretion of how you utilize this color palette, but make sure you check the contrast of any text or designs. 
+        <p class="disclaimer">Disclaimer: You can use this color palette at your discretion, but make sure you check the contrast of any text or designs. 
             <a href="https://www.wcag.com/designers/" target="_blank" style="color: #007bff; text-decoration: underline;">Click here</a> 
             for more information on how to check if your design is accessible.
         </p>
     </div>
+</div>
     
 
     <!--<div class="tab-content" id="palleteFeedback">

@@ -77,7 +77,7 @@ document.getElementById("checkContrast").addEventListener("click", function () {
             const newDiv = document.createElement("div");
             newDiv.innerHTML = `
               <hr style="border: 2px solid #ddd;">
-              <p style="font-size: 16px; margin-left: 2px;">Look at alternative colors below!</p>
+              <p style="font-size: 16px; margin-left: 2px;">Select 2 of the alternate colors below to test contrast!</p>
               <div style="display: flex; justify-content: space-between;">
                 <div style="flex: 1; margin-right: 10px;">
                 <div style="width: 100%; display: flex; flex-direction: row; align-items: center;">
