@@ -12,10 +12,10 @@
 
     <style>
         @font-face {
-    font-family: 'Adobe Clean';
-    src: url('../fonts/AdobeClean/AdobeClean-Regular.otf') format('otf');
-    font-weight: 400;
-    font-style: normal;
+            font-family: 'Adobe Clean';
+            src: url('../fonts/AdobeClean/AdobeClean-Regular.otf') format('otf');
+            font-weight: 400;
+            font-style: normal;
         }
         body {
             font-family: 'Adobe Clean', sans-serif;
@@ -31,9 +31,10 @@
         input[type="text"] {
             width: calc(50% - 15px);
             padding: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 0px;
             display: inline-block;
             box-sizing: border-box;
+            outline:  2px solid #ddd; /* Grey outline */
         }
         button {
             display: block;            /* Makes the button a block element */
@@ -56,7 +57,7 @@
             height: 60px;
             display: inline-block;
             border-radius: 10px;
-            border: 2px solid #ddd;
+            border: 5px solid #ddd;
             margin-right: 10px;
             font-size: 16px;
             cursor: pointer; /* Change cursor to pointer */
@@ -99,6 +100,14 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .info-container {
+            max-width: 480px;
+            margin: 25px auto;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
         .contrast-heading {
             font-size: 18px;
             margin-bottom: 20px;
@@ -126,7 +135,7 @@
             appearance: none;
             cursor: pointer;
             background-color: #ffffff; /* Default color to white */
-            outline:  1px solid #ddd; /* Grey outline */
+            outline:  2px solid #ddd; /* Grey outline */
             /*border-radius: 10px;*/
             
             /*display: none;  Hide color pickers */
@@ -140,7 +149,7 @@
         .color-picker-icon {
             position: absolute;
             right: 10px;
-            bottom: 12px;
+            bottom: 15px;
             width: 20px;
             height: 20px;
             pointer-events: none; /* Let the click event go to the input element */
@@ -158,6 +167,7 @@
             display: flex;
             cursor: pointer;
             margin-bottom: 20px;
+            font-size: 15px;
         }
         .tab {
             padding: 10px 20px;
@@ -213,12 +223,14 @@ textarea {
 .hex-box {
     display: flex;
     align-items: center;
+    flex-direction: column;
     margin-top: 5px;
     position: relative;
+    width: 100px;
 }
 
 .hex-input {
-    width: 100px;
+    width: 115px;
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -227,6 +239,14 @@ textarea {
     background-color: #f9f9f9;
     cursor: pointer;
     position: relative;
+}
+
+.hex-input-boxes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 9px; /* Adds space between the hex inputs */
+    /*margin-left: 4px;  Moves the text boxes slightly to the right */
 }
 
 .clipboard-icon {
@@ -306,14 +326,60 @@ textarea {
         height: 50px;
         color: #fff;
       }
+      .contrast-ratio-label {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 8px;
+        }
+      .contrast-ratio {
+        margin-top:-3px;
+        font-size: 35px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        }
+        .checkContrast {
+            display: block;            /* Makes the button a block element */
+            margin: 20px auto;       /* Centers the button with automatic margins */
+            padding: 8px 16px;        /* Smaller padding */
+            background-color: #2a8ef9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;          /* Smaller font size */
+            transition: background-color 0.3s;
+            margin-top: -20px;
+        }
+        .text-box {
+    background-color: #fff;
+    border-radius: 7px;
+    width: 140px;
+    height: 50px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    
+}
+
+#resultTable td {
+    padding: 0 10px; /* Add horizontal padding to increase space */
+}
+
+#resultTableNew td {
+    padding: 0 8px; /* Add horizontal padding to increase space */
+}
       
     </style>
 </head>
 <body>
     <div class="tabs">
         <div class="tab active" data-tab="contrastChecker">Contrast Checker</div>
-        <div class="tab" data-tab="AI">AI</div>
-        <!--<div class="tab" data-tab="palleteFeedback">Pallete Checker</div>-->
+        <div class="tab" data-tab="AI Palette">AI Color Palette</div>
+        <div class="tab" data-tab="info">ⓘ</div>
     </div>
 
     <div class="tab-content active" id="contrastChecker">
@@ -328,20 +394,23 @@ textarea {
             <div class="hex-input-container">
               <div class="hex-squares-container">
                 <div class="color-picker-container">
-                    <input type="color" id="foregroundColorPicker" value="#ffffff" />
+                    <input type="color" id="foregroundColorPicker" value="#f1c9fe" />
                     <img src="assets/color-picker-icon.png" class="color-picker-icon" alt="color picker icon" />
                 </div>
+                
                 <div class="color-picker-container">
-                    <input type="color" id="backgroundColorPicker" value="#ffffff" />
+                    <input type="color" id="backgroundColorPicker" value="#9a244f" />
                     <img src="assets/color-picker-icon.png" class="color-picker-icon" alt="color picker icon" />
                 </div>
+                
             </div>
-                <div>
-                    <input type="text" id="foregroundColor" placeholder="Foreground Hex"/>
-                    <input type="text" id="backgroundColor" placeholder="Background Hex">
+                <div class="hex-input-boxes">
+                    <input type="text" id="foregroundColor" value="#f1c9fe" placeholder="Foreground Hex"/>
+                
+                    <input type="text" id="backgroundColor" value="#9a244f" placeholder="Background Hex">
                 </div>
             </div>
-            <button id="checkContrast">Submit</button>
+            <button class="checkContrast" id="checkContrast">Submit</button>
             <div id="result"></div>
             <div id="tableResult">
                 <table id="resultTable">
@@ -355,14 +424,14 @@ textarea {
                     <tbody>
                         <tr>
                             <td>
-                                <button id="normalAAImage">Normal Text</button>
+                                <div id="normalAAImage" class="text-box">Normal Text</div>
                             </td>
                             <td id="AA"></td>
                             <td id="AAA"></td>
                         </tr>
                         <tr>
                             <td>
-                                <button id="largeAAAImage">Large Text</button>
+                                <div id="largeAAAImage" class="text-box">Large Text</div>
                             </td>
                             <td id="AALarge"></td>
                             <td id="AAALarge"></td>
@@ -390,14 +459,14 @@ textarea {
                   <tbody>
                     <tr>
                       <td>
-                        <button id="normalAAImage1">Normal Text</button>
+                        <div id="normalAAImage1" class="text-box">Normal Text</div>
                       </td>
                       <td id="AA2"></td>
                       <td id="AAA2"></td>
                     </tr>
                     <tr>
                       <td>
-                        <button id="largeAAAImage1">Large Text</button>
+                        <div id="largeAAAImage1" class="text-box">Large Text</div>
                       </td>
                       <td id="AALarge2"></td>
                       <td id="AAALarge2"></td>
@@ -405,11 +474,10 @@ textarea {
                   </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 
-    <div class="tab-content" id="AI">
+    <div class="tab-content" id="AI Palette">
         <div class="ai-container">
         <h3>Briefly describe your theme and we will give you a similar color palette with accessible colors.</h3>
         <textarea id="colorDescription" maxLength="50" rows="4" placeholder="Describe your color palette..."></textarea>
@@ -422,7 +490,7 @@ textarea {
         </div>
         
         <!-- Apply the "disclaimer" class to the disclaimer paragraph -->
-        <p class="disclaimer">Disclaimer: You can use this color palette at your discretion, but make sure you check the contrast of any text or designs. 
+        <p class="disclaimer">Disclaimer: The AI palette results generated may be inaccurate, so please use at your discretion and make sure you check the contrast of any text or designs.
             <a href="https://www.wcag.com/designers/" target="_blank" style="color: #007bff; text-decoration: underline;">Click here</a> 
             for more information on how to check if your design is accessible.
         </p>
@@ -430,10 +498,30 @@ textarea {
 </div>
     
 
-    <!--<div class="tab-content" id="palleteFeedback">
-      <h2>Check all the colors in your design at once!</h2>
-      <p>Disclaimer: kejfajkfnalskfnaskjfn</p>
-  </div>--> 
+<div class="tab-content" id="info">
+    <div class="info-container">
+        <h2>Welcome to Accessify!</h2>
+        <p>With Accessify, you’ve got two powerful options. Use the color picker tool to select colors from your design, or enter the hex codes manually and hit ‘Submit.’ In seconds, our tool analyzes the contrast between your chosen colors and instantly generates a table showing whether your design meets WCAG’s AA and AAA compliance standards.</p>
+        
+        <h3>About WCAG</h3>
+        <p>The Web Content Accessibility Guidelines (WCAG) are globally accepted standards aimed at improving web content accessibility for individuals with disabilities.</p>
+    
+        <h3>Regular and Large Text</h3>
+        <p>For regular text, the guidelines define it as being 17 points or smaller for normal weight fonts and 13 points or smaller for bold fonts.</p>
+        <p>Text is considered large if it is 18 points or larger for normal weight and 14 points or larger for bold weight.</p>
+    
+        <h3>WCAG AA Compliance</h3>
+        <p>AA is the basic level of requirement. To meet it, regular text must have a contrast ratio of at least 4.5:1, large text must have a ratio of at least 3:1, and graphical elements also need a minimum ratio of 3:1.</p>
+    
+        <h3>WCAG AAA Compliance</h3>
+        <p>AAA is the advanced level. To meet it, regular text should have a contrast ratio of at least 7:1, while large text should maintain a ratio of 4.5:1.</p>
+    
+        <h3>Learn More</h3>
+        <p><a href="https://www.wcag.com/designers/" target="_blank" style="color: #007bff; text-decoration: underline;">Click here</a> 
+        for more information on how to check if your design is accessible.</p>
+    </div>
+  </div>
+  
 
     <script>
         //const foregroundSquare = document.getElementById("foregroundSquare");
